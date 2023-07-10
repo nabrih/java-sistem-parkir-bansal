@@ -5,10 +5,19 @@
  */
 package sistemparkir;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,7 +25,8 @@ import java.util.logging.Logger;
  */
 public class Dashboard extends javax.swing.JFrame {
 
-    String kodeUser, namaUser, jenisUser;
+    Connection conn;
+    String kodeUser="admin", namaUser, jenisUser;
 
     /**
      * Creates new form Dashboard
@@ -24,6 +34,13 @@ public class Dashboard extends javax.swing.JFrame {
     public Dashboard() {
         initComponents();
         waktuRealtime();
+        
+        Database db = new Database();
+        try {
+            conn = db.getConnection();
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -45,7 +62,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         inputNopol = new javax.swing.JTextField();
-        labelBiaya = new javax.swing.JLabel();
+        labelBiaya22 = new javax.swing.JLabel();
         jButtonCariNopol = new javax.swing.JButton();
         jRadioButtonMotor = new javax.swing.JRadioButton();
         jRadioButtonMobil = new javax.swing.JRadioButton();
@@ -63,6 +80,7 @@ public class Dashboard extends javax.swing.JFrame {
         labelKodeUser = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        labelBiaya = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuData = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -97,13 +115,17 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel8.setText("Biaya :");
 
         inputNopol.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        inputNopol.setText("B1234ABC");
 
-        labelBiaya.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        labelBiaya.setText("Rp.");
+        labelBiaya22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelBiaya22.setText("Rp.");
 
         jButtonCariNopol.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButtonCariNopol.setText("Cari");
+        jButtonCariNopol.setText("Periksa");
+        jButtonCariNopol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCariNopolActionPerformed(evt);
+            }
+        });
 
         buttonGroupJenisKendaraan.add(jRadioButtonMotor);
         jRadioButtonMotor.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -152,7 +174,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jButtonBatal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jButtonBatal.setForeground(new java.awt.Color(51, 51, 51));
-        jButtonBatal.setText("Batal");
+        jButtonBatal.setText("Bersih");
         jButtonBatal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBatalActionPerformed(evt);
@@ -172,7 +194,10 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setText("Tarif Motor : 2000/jam");
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel5.setText("Tarif Mobil : 3000/jam");
+        jLabel5.setText("Tarif Mobil : 5000/jam");
+
+        labelBiaya.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        labelBiaya.setText("2000");
 
         jMenuData.setText("Data");
         jMenuData.addActionListener(new java.awt.event.ActionListener() {
@@ -229,20 +254,20 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(labelNamaOperator))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 286, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelTanggal))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelJam))))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelJam)
+                            .addComponent(labelTanggal)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(18, 18, 18)
+                                .addComponent(labelBiaya22)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelBiaya)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonMasuk)
@@ -267,13 +292,13 @@ public class Dashboard extends javax.swing.JFrame {
                                             .addComponent(inputNopol, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
-                                                .addGap(31, 31, 31)
-                                                .addComponent(jButtonCariNopol, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
                                                 .addGap(63, 63, 63)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel5)
-                                                    .addComponent(jLabel3)))))
+                                                    .addComponent(jLabel3)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(31, 31, 31)
+                                                .addComponent(jButtonCariNopol))))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(inputWaktuKeluar, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(inputWaktuMasuk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
@@ -330,10 +355,11 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(labelBiaya)
+                    .addComponent(labelBiaya22)
                     .addComponent(jButtonKeluar)
                     .addComponent(jButtonMasuk)
-                    .addComponent(jButtonBatal))
+                    .addComponent(jButtonBatal)
+                    .addComponent(labelBiaya))
                 .addGap(15, 15, 15))
             .addGroup(layout.createSequentialGroup()
                 .addGap(171, 171, 171)
@@ -386,17 +412,60 @@ public class Dashboard extends javax.swing.JFrame {
         };
         th.start();
     }
-
+    void bersihkanInput(){
+        bersihkanInput(true);
+    }
+    void bersihkanInput(boolean termasukNopol){
+        if(termasukNopol)
+            inputNopol.setText("");
+        buttonGroupJenisKendaraan.clearSelection();
+        inputWaktuMasuk.setText("");
+        inputWaktuKeluar.setText("");
+        labelBiaya.setText("");
+    }
+    
     private void inputWaktuMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputWaktuMasukActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputWaktuMasukActionPerformed
 
     private void jButtonKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKeluarActionPerformed
-        // TODO add your handling code here:
+        jRadioButtonMotor.setActionCommand("Motor");
+        jRadioButtonMobil.setActionCommand("Mobil");
+        
+        try{
+            Statement st = conn.createStatement();
+            int ubah = st.executeUpdate("UPDATE parkir"
+                    + " set waktu_keluar='" + inputWaktuKeluar.getText() + "', operator_keluar='" + kodeUser 
+                    + "', biaya='" + labelBiaya.getText() +"' where nopol='" + inputNopol.getText()+"' and waktu_keluar is null"
+            );
+            if(ubah == 1){
+                bersihkanInput();
+                JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Informasi",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Data gagal disimpan", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_jButtonKeluarActionPerformed
 
     private void jButtonMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMasukActionPerformed
+        jRadioButtonMotor.setActionCommand("Motor");
+        jRadioButtonMobil.setActionCommand("Mobil");
         
+        String jenisKendaraan = buttonGroupJenisKendaraan.getSelection().getActionCommand();
+        try{
+            Statement st = conn.createStatement();
+            int val = st.executeUpdate("INSERT INTO parkir(nopol, jenis_kendaraan, waktu_masuk, operator_masuk)"
+                    + " VALUES('" + inputNopol.getText() + "','" + jenisKendaraan + "', now(), '" + kodeUser +"')"
+            );
+            JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Informasi",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_jButtonMasukActionPerformed
 
     private void jMenuDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDataActionPerformed
@@ -409,12 +478,52 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButtonBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBatalActionPerformed
-        // TODO add your handling code here:
+        bersihkanInput();
     }//GEN-LAST:event_jButtonBatalActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         dispose();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButtonCariNopolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCariNopolActionPerformed
+        bersihkanInput(false);
+        try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select *, now() as waktu_sekarang from parkir where nopol='" + inputNopol.getText() + "' and waktu_keluar is null");
+            rs.beforeFirst();
+            
+            
+            if (rs.next()) {
+                System.out.println("sistemparkir.Dashboard.jButtonCariNopolActionPerformed() "+rs.getString("waktu_masuk"));
+                Timestamp t = Timestamp.valueOf(rs.getString("waktu_masuk"));
+                Timestamp t2 = Timestamp.valueOf(rs.getString("waktu_sekarang"));
+
+                long diff = t2.getTime() - t.getTime();
+                int jam = (int)(diff/1000/60/60);
+                int totalBiaya = 0;
+
+                if(rs.getString("jenis_kendaraan").equals("Motor")){
+                    buttonGroupJenisKendaraan.setSelected(jRadioButtonMotor.getModel(), true);
+                    totalBiaya = jam * 2000;
+                }else{
+                    buttonGroupJenisKendaraan.setSelected(jRadioButtonMobil.getModel(), true);
+                    totalBiaya = jam * 5000;
+                }
+                inputWaktuMasuk.setText(rs.getString("waktu_masuk").substring(0, rs.getString("waktu_masuk").indexOf('.')));
+                inputWaktuKeluar.setText(rs.getString("waktu_sekarang").substring(0, rs.getString("waktu_sekarang").indexOf('.')));
+                
+                labelBiaya.setText(String.valueOf(totalBiaya));
+
+                JOptionPane.showMessageDialog(this, "Kode yang dicari ada", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Maaf Nomor Kendaraan yang dicari tidak ada", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonCariNopolActionPerformed
 
     /**
      * @param args the command line arguments
@@ -480,6 +589,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonMobil;
     private javax.swing.JRadioButton jRadioButtonMotor;
     private javax.swing.JLabel labelBiaya;
+    private javax.swing.JLabel labelBiaya22;
     private javax.swing.JLabel labelJam;
     private javax.swing.JLabel labelJenisUser;
     private javax.swing.JLabel labelKodeUser;
