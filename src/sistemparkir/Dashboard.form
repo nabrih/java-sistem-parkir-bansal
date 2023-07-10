@@ -111,7 +111,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="labelBiaya22" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelBiaya" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelBiaya" min="-2" pref="157" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButtonMasuk" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -234,7 +234,7 @@
                   <Component id="jButtonKeluar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonMasuk" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonBatal" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="labelBiaya" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelBiaya" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
@@ -479,7 +479,6 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="2000"/>
       </Properties>
     </Component>
   </SubComponents>

@@ -197,7 +197,6 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel5.setText("Tarif Mobil : 5000/jam");
 
         labelBiaya.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        labelBiaya.setText("2000");
 
         jMenuData.setText("Data");
         jMenuData.addActionListener(new java.awt.event.ActionListener() {
@@ -268,7 +267,7 @@ public class Dashboard extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(labelBiaya22)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(labelBiaya)
+                                .addComponent(labelBiaya, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonMasuk)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -359,7 +358,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(jButtonKeluar)
                     .addComponent(jButtonMasuk)
                     .addComponent(jButtonBatal)
-                    .addComponent(labelBiaya))
+                    .addComponent(labelBiaya, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
             .addGroup(layout.createSequentialGroup()
                 .addGap(171, 171, 171)
@@ -463,6 +462,7 @@ public class Dashboard extends javax.swing.JFrame {
             );
             JOptionPane.showMessageDialog(this, "Data berhasil disimpan", "Informasi",
                     JOptionPane.INFORMATION_MESSAGE);
+            bersihkanInput();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -499,7 +499,7 @@ public class Dashboard extends javax.swing.JFrame {
                 Timestamp t2 = Timestamp.valueOf(rs.getString("waktu_sekarang"));
 
                 long diff = t2.getTime() - t.getTime();
-                int jam = (int)(diff/1000/60/60);
+                int jam = (int) Math.ceil((double) diff/1000/60/60);
                 int totalBiaya = 0;
 
                 if(rs.getString("jenis_kendaraan").equals("Motor")){
