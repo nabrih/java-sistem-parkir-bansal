@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -53,15 +54,17 @@ public class DataUser extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        inputKode = new javax.swing.JTextField();
+        inputNama = new javax.swing.JTextField();
+        inputPassword = new javax.swing.JPasswordField();
+        jButtonCari = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        inputPilihJenisUser = new javax.swing.JComboBox<>();
+        jButtonSimpan = new javax.swing.JButton();
+        jButtonEdit = new javax.swing.JButton();
+        jButtonHapus = new javax.swing.JButton();
+        jButtonBersih = new javax.swing.JButton();
+        jButtonKeluar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Data User");
@@ -75,7 +78,7 @@ public class DataUser extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Kode User", "Nama Lengkap", "Jenis User"
+                "Kode User", "Nama", "Jenis User"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -88,29 +91,56 @@ public class DataUser extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel3.setText("Nama Lengkap");
+        jLabel3.setText("Nama");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Data User");
 
-        jLabel5.setText("Konfirmasi");
-
-        jPasswordField1.setText("jPasswordField1");
-
-        jPasswordField2.setText("jPasswordField1");
-
-        jButton1.setText("Cari");
-
-        jLabel6.setText("Jenis User");
-
-        jRadioButton1.setText("Operator");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCari.setText("Cari");
+        jButtonCari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                jButtonCariActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("Admin");
+        jLabel6.setText("Jenis User");
+
+        inputPilihJenisUser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Pilih --", "Operator", "Admin" }));
+
+        jButtonSimpan.setText("Simpan");
+        jButtonSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSimpanActionPerformed(evt);
+            }
+        });
+
+        jButtonEdit.setText("Edit");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
+
+        jButtonHapus.setText("Hapus");
+        jButtonHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHapusActionPerformed(evt);
+            }
+        });
+
+        jButtonBersih.setText("Bersih");
+        jButtonBersih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBersihActionPerformed(evt);
+            }
+        });
+
+        jButtonKeluar.setText("Keluar");
+        jButtonKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonKeluarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -120,38 +150,43 @@ public class DataUser extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(159, 159, 159))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jRadioButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton2)))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputKode, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonCari))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(inputNama, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputPilihJenisUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButtonSimpan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButtonHapus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonBersih)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonKeluar)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,42 +196,147 @@ public class DataUser extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(inputKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCari))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inputNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                    .addComponent(inputPilihJenisUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(inputPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                    .addComponent(jButtonSimpan)
+                    .addComponent(jButtonEdit)
+                    .addComponent(jButtonHapus)
+                    .addComponent(jButtonBersih)
+                    .addComponent(jButtonKeluar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void jButtonCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCariActionPerformed
+        try{
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery("select * from user where kode='" + inputKode.getText() + "'");
+            rs.beforeFirst();
+            
+            if (rs.next()) {
+                inputNama.setText(rs.getString("nama"));
+                inputPilihJenisUser.setSelectedItem(rs.getString("jenis_user"));
+                inputPassword.setText(rs.getString("password"));
 
-    void getDataUser() {
+                JOptionPane.showMessageDialog(this, "Kode yang dicari ada", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                bersihkanInput(true);
+                JOptionPane.showMessageDialog(this, "Maaf kode yang dicari tidak ada", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonCariActionPerformed
+
+    private void jButtonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSimpanActionPerformed
+        try{
+            Statement st = conn.createStatement();
+            int val = st.executeUpdate("INSERT INTO user"
+                    + " VALUES('" + inputKode.getText() + "','" + inputNama.getText() + "','"
+                    + inputPilihJenisUser.getSelectedItem() + "','" + inputPassword.getText()+ "')"
+            );
+            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan", "Informasi",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("data berhasil ditambahkan");
+            model.setRowCount(0);
+            bersihkanInput();
+            getDataUser();
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSimpanActionPerformed
+
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        try{
+            Statement st = conn.createStatement();
+            int ubah = st.executeUpdate("update user set nama='" + inputNama.getText()
+                    + "', jenis_user='" + inputPilihJenisUser.getSelectedItem() 
+                    + "', password='" + inputPassword.getText()+ "'"
+                    + " where kode='" + inputKode.getText() + "'");
+
+            if (ubah == 1) {
+                bersihkanInput();
+                getDataUser();
+                JOptionPane.showMessageDialog(this, "Data berhasil diupdate", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                bersihkanInput(true);
+                JOptionPane.showMessageDialog(this, "Data gagal diupdate", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
+    private void jButtonHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHapusActionPerformed
+        try{
+            Statement st = conn.createStatement();
+            int ubah = st.executeUpdate("delete from user where kode='" + inputKode.getText() + "'");
+
+            if (ubah == 1) {
+                bersihkanInput();
+                getDataUser();
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                bersihkanInput(true);
+                JOptionPane.showMessageDialog(this, "Data gagal dihapus", "Informasi",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonHapusActionPerformed
+
+    private void jButtonBersihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBersihActionPerformed
+        bersihkanInput();
+    }//GEN-LAST:event_jButtonBersihActionPerformed
+
+    private void jButtonKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonKeluarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonKeluarActionPerformed
+
+    private void bersihkanInput(){
+        bersihkanInput(false);
+    }
+    private void bersihkanInput(boolean exceptKode) {
+        if (!exceptKode) {
+            inputKode.setText("");
+        }
+
+        inputNama.setText("");
+        inputPilihJenisUser.setSelectedIndex(0);
+        inputPassword.setText("");
+        inputPassword.setText("");
+    }
+    
+    private void getDataUser() {
         model.getDataVector().removeAllElements();
         model.fireTableDataChanged();
-
+        
         try {
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("select * from user");
@@ -250,20 +390,22 @@ public class DataUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField inputKode;
+    private javax.swing.JTextField inputNama;
+    private javax.swing.JPasswordField inputPassword;
+    private javax.swing.JComboBox<String> inputPilihJenisUser;
+    private javax.swing.JButton jButtonBersih;
+    private javax.swing.JButton jButtonCari;
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JButton jButtonHapus;
+    private javax.swing.JButton jButtonKeluar;
+    private javax.swing.JButton jButtonSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
